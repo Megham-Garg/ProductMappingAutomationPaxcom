@@ -51,7 +51,7 @@ END;
 * extract units from title
 * extract size as in small, medium etc. if any from title
 
-###pass all the details to self mapper function and comp mapper function along with passing criteria
+### pass all the details to self mapper function and comp mapper function along with passing criteria
 
 ## default values are as follows:
 
