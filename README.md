@@ -1,5 +1,6 @@
 # ProductMappingAutomationPaxcom
-#schema for products table
+
+##schema for products table
 ```
 CREATE TABLE products
 (
@@ -20,6 +21,8 @@ CREATE TABLE products
     packaging character varying COLLATE pg_catalog."default"
 )
 ```
+
+## adding required columns
 ```
 BEGIN
     ALTER TABLE compproducts
@@ -35,50 +38,60 @@ BEGIN
 END;
 ```
 
-# Data Formatting steps:
-convert title, brand, subtitle to lower case
-remove all characters from title, brand, subtitle except alhanumerics, and dot
-extract packaging type for the product
-extract packaging type if any from products
-extract weight from subtitle and if not present then from title
-extract si unit and then convert grammage to stadard litre, kg, and meters
-convert si to standard
-remove brand from title
-extract variant by removing all digits, duplicate words and single letters from title
-extract units from title
-extract size as in small, medium etc. if any from title
+## Data Formatting steps:
+* convert title, brand, subtitle to lower case
+* remove all characters from title, brand, subtitle except alhanumerics, and dot
+* extract packaging type for the product
+* extract packaging type if any from products
+* extract weight from subtitle and if not present then from title
+* extract si unit and then convert grammage to stadard litre, kg, and meters
+* convert si to standard
+* remove brand from title
+* extract variant by removing all digits, duplicate words and single letters from title
+* extract units from title
+* extract size as in small, medium etc. if any from title
 
-pass all the details to self mapper function and comp mapper function along with passing criteria
-default values are as follows:
+###pass all the details to self mapper function and comp mapper function along with passing criteria
 
-a.) for self
+## default values are as follows:
+
+* for self
+```
 logic_choice integer DEFAULT 1
 title_match double precision DEFAULT 50
 brand_match double precision DEFAULT 65
 mrp_match double precision DEFAULT 75
 price_match double precision DEFAULT 75
 overall_criteria double precision DEFAULT 75
-
-a.) for competition
+```
+* for competition
+```
 title_match DOUBLE PRECISION DEFAULT 50
 brand_match DOUBLE PRECISION DEFAULT 45
 grammage_match DOUBLE PRECISION DEFAULT 30
 overall_criteria DOUBLE PRECISION DEFAULT 75
+```
 
-A doesn't need overall_criteria and B uses overall_criteria
-0 B
-1 A
-2 A or B
-3 A AND B
+### A doesn't need overall_criteria and B uses overall_criteria
+*0 B
+*1 A
+*2 A or B
+*3 A AND B
 
-In self mapping we get multiple records as a result and we need to restrict it to one
+### In self mapping we get multiple records as a result and we need to restrict it to one
 current logic
+```
 ORDER BY channel, ABS(mrp - base_mrp)/2 ASC, uniq_common_words(base_variant, variant) DESC
+```
 
-alternates choices that we have for uniq_common_words
+####alternates choices that we have for uniq_common_words
+```
 strict_word_similarity(base_variant, variant) DESC
 similarity(base_variant, variant) DESC
+```
 
-alternates choices that we have for price formula
+####alternates choices that we have for price formula
+```
 ABS(price - base_price)/2 ASC
 (ABS(price - base_price)/2 + ABS(mrp - base_mrp)/2) ASC
+```
