@@ -1,0 +1,1 @@
+select *, compmapperproducts(sku, channel, variant, brand, mrp, price, units, grammage, si, size, 1, 30) from compproducts where compmapperproducts(sku, channel, variant, brand, mrp, price, units, grammage, si, size, 1, 30) != '{}';
