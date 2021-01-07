@@ -1,5 +1,6 @@
 # ProductMappingAutomationPaxcom
--- schema for products table
+#schema for products table
+```
 CREATE TABLE products
 (
     id integer NOT NULL,
@@ -18,7 +19,8 @@ CREATE TABLE products
     weight character varying COLLATE pg_catalog."default",
     packaging character varying COLLATE pg_catalog."default"
 )
-
+```
+```
 BEGIN
     ALTER TABLE compproducts
     ADD COLUMN variant CHARACTER VARYING,
@@ -31,11 +33,9 @@ BEGIN
     EXCEPTION
     WHEN duplicate_column THEN RAISE NOTICE 'columns already exists in products';
 END;
+```
 
-
-Process:
-1. Self mapping
-steps:
+# Data Formatting steps:
 convert title, brand, subtitle to lower case
 remove all characters from title, brand, subtitle except alhanumerics, and dot
 extract packaging type for the product
