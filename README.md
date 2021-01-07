@@ -1,6 +1,6 @@
 # ProductMappingAutomationPaxcom
 
-##schema for products table
+* schema for products table
 ```
 CREATE TABLE products
 (
@@ -73,10 +73,10 @@ overall_criteria DOUBLE PRECISION DEFAULT 75
 ```
 
 ### A doesn't need overall_criteria and B uses overall_criteria
-*0 B
-*1 A
-*2 A or B
-*3 A AND B
+* 0 B
+* 1 A
+* 2 A or B
+* 3 A AND B
 
 ### In self mapping we get multiple records as a result and we need to restrict it to one
 current logic
@@ -84,13 +84,13 @@ current logic
 ORDER BY channel, ABS(mrp - base_mrp)/2 ASC, uniq_common_words(base_variant, variant) DESC
 ```
 
-####alternates choices that we have for uniq_common_words
+#### alternates choices that we have for uniq_common_words
 ```
 strict_word_similarity(base_variant, variant) DESC
 similarity(base_variant, variant) DESC
 ```
 
-####alternates choices that we have for price formula
+#### alternates choices that we have for price formula
 ```
 ABS(price - base_price)/2 ASC
 (ABS(price - base_price)/2 + ABS(mrp - base_mrp)/2) ASC
