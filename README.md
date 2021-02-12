@@ -22,22 +22,6 @@ CREATE TABLE products
 )
 ```
 
-## adding required columns
-```
-BEGIN
-    ALTER TABLE compproducts
-    ADD COLUMN variant CHARACTER VARYING,
-    ADD COLUMN weight CHARACTER VARYING,
-    ADD COLUMN SI CHARACTER VARYING,
-    ADD COLUMN units INTEGER,
-    ADD COLUMN grammage DOUBLE PRECISION,
-    ADD COLUMN packaging CHARACTER VARYING
-    ADD COLUMN size CHARACTER VARYING;
-    EXCEPTION
-    WHEN duplicate_column THEN RAISE NOTICE 'columns already exists in products';
-END;
-```
-
 ## Data Formatting steps:
 * convert title, brand, subtitle to lower case
 * remove all characters from title, brand, subtitle except alhanumerics, and dot
@@ -77,21 +61,3 @@ overall_criteria DOUBLE PRECISION DEFAULT 75
 * 1 A
 * 2 A or B
 * 3 A AND B
-
-### In self mapping we get multiple records as a result and we need to restrict it to one
-current logic
-```
-ORDER BY channel, ABS(mrp - base_mrp)/2 ASC, uniq_common_words(base_variant, variant) DESC
-```
-
-#### alternates choices that we have for uniq_common_words
-```
-strict_word_similarity(base_variant, variant) DESC
-similarity(base_variant, variant) DESC
-```
-
-#### alternates choices that we have for price formula
-```
-ABS(price - base_price)/2 ASC
-(ABS(price - base_price)/2 + ABS(mrp - base_mrp)/2) ASC
-```
